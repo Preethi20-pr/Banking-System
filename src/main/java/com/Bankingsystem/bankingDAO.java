@@ -5,13 +5,15 @@ public class bankingDAO {
 	Connection con=null;
 	
 	//method to get connection to db
-	public void dbconnection()throws Exception{
+	public void dbconnection()throws Exception
+	{
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Bankingsystem","root","72041999");
 		}
 	
 	//method to register customer to db
-	public int registercustomer(customer c1) throws Exception{
+	public int registercustomer(customer c1) throws Exception
+	{
 		String query="insert into customer values(?,?,?,?)";
 		PreparedStatement pst=con.prepareStatement(query);
 		pst.setInt(1,c1.cusid);
@@ -21,7 +23,73 @@ public class bankingDAO {
 		int res=pst.executeUpdate();
 		return res;
 		
+		
 	}
+    
+	public int login(String uname,int pwd)throws Exception {
+		
+		//fetching the user details based on username
+		String query="select * from customer where cusname= '"+uname+"'";
+		Statement st=con.createStatement();
+		ResultSet rs=st.executeQuery(query);
+		
+		//checking whether we  use user details or not
+		if(rs.next()) {
+			
+			//fetching the password from db
+			int password=rs.getInt(3);
+			
+			//matching the password
+			if(password==pwd) {
+				//login success
+				return rs.getInt(1);
+			}
+			else {
+				//bad password
+				return 0;
+			}
+		}
+		else {
+			//unable to fetch user details
+			return -1;
+		}
+	}
+		
+		
+		public int deposit(int amount,int customerid) throws Exception {
+			
+			//fetching user details based on customer id
+			String 	query2="select  * from customer where cusid="+customerid;
+			
+			Statement st=con.createStatement();
+			
+			ResultSet rs=st.executeQuery(query2);
+			rs.next();
+			
+			//extracting account balance 
+			int bal=rs.getInt(4);
+			
+			//updating amount
+			amount+=bal;
+			
+			//storing the updated amount
+			String query="update customer set cusamount ="+amount+" where cusid="+customerid;
+			
+			PreparedStatement pst=con.prepareStatement(query);
+			
+			pst.executeUpdate();
+			//returning updated amount
+					return amount;
+				
+			
+		}
+		
+		
+		public void withdraw() {
+			
+		}
+		
+	
 	
 	
 
