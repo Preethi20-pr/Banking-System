@@ -6,9 +6,9 @@ public class bankingMain {
 		Scanner sc= new Scanner(System.in);
 		bankingDAO dao= new bankingDAO();
 		customer c1=new customer();
-		System.out.println("\t\t\t**********Welcome to Java Banking***********");
+		System.out.println("\t\t\t**********Welcome to JDBC Banking***********");
 		
-		System.out.println("Press 1 for registration \n Press 2 for login");
+		System.out.println("Press 1 for Registration \n Press 2 for Login");
 		int op=sc.nextInt();
 		switch(op){
 		
@@ -35,14 +35,14 @@ public class bankingMain {
 		//if register is success response=1 otherwise 0
 		if(res==1)
 		{
-			System.out.println("Account creation is successfull");
+			System.out.println("Account creation is successfull\n Thank You for Registering!");
 		}
 		else {
 			System.out.println("Somthing went wrong");
 		}
 	}
 			case 2->{
-				System.out.println("welcome to Login page");
+				System.out.println("*******welcome to Login page********");
 				
 				//reading username and password for login
 				System.out.println("Enter Username");
@@ -78,6 +78,60 @@ public class bankingMain {
 				    	System.out.println("Deposit Successfull\n Available amount is:"+bal);	
 				    
 				    }
+				   
+				    case 2->{
+						System.out.println("Enter amount to Withdraw");
+						int amount=sc.nextInt();
+						System.out.println("Confirm your Password");
+						int confmpwd=sc.nextInt();
+						int availamount=dao.withdraw(amount, confmpwd,res);
+						
+						if(availamount==-1) {
+							System.out.println("Low Balance");
+						}
+						else if(availamount==0) {
+							System.out.println("Incorrect password");
+						}
+						else {
+							System.out.println("Withdraw Successful \n Available Amount is :"+availamount);
+						}
+				}
+				
+				    case 3->{
+					
+						System.out.println("Enter current password");
+						int currentpwd=sc.nextInt();
+						System.out.println("Enter new password");
+						int newpwd=sc.nextInt();
+						
+						int status=dao.changepwd(currentpwd, newpwd, res);
+						if(status==1) {
+							System.out.println(" Your Password is Changed...");
+						}
+						else {
+							System.out.println("Something went wrong");
+						}
+						
+				}
+				
+				    case 4->{
+				    	
+						System.out.println("Enter Password to delete");
+						int pass=sc.nextInt();
+						int status=dao.deleteAccount(pass, res);
+						if(status==1) {
+							System.out.println("Your account is deleted\n Good Bye!....");
+						}
+						else {
+							System.out.println("Something went wrong");
+						}
+						
+						
+						
+						
+						
+				}
+				
 				    }
 				    
 				}
