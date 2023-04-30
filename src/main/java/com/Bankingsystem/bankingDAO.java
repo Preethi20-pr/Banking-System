@@ -11,7 +11,7 @@ public class bankingDAO {
 		con=DriverManager.getConnection("jdbc:mysql://localhost:3306/Bankingsystem","root","72041999");
 		}
 	
-	//method to register customer to db
+	//method to register customer to db 
 	public int registercustomer(customer c1) throws Exception
 	{
 		String query="insert into customer values(?,?,?,?)";
@@ -23,12 +23,12 @@ public class bankingDAO {
 		int res=pst.executeUpdate();
 		return res;
 		
-		
 	}
     
 	public int login(String uname,int pwd)throws Exception {
 		
-		//fetching the user details based on username
+		//fetching the user details based on username   
+		
 		String query="select * from customer where cusname= '"+uname+"'";
 		Statement st=con.createStatement();
 		ResultSet rs=st.executeQuery(query);
@@ -54,6 +54,7 @@ public class bankingDAO {
 			return -1;
 		}
 	}
+	
 		
 		
 		public int deposit(int amount,int customerid) throws Exception {
@@ -158,9 +159,5 @@ public class bankingDAO {
 				return 0;
 			}
 		}
-		
-	
-	
-	
-
 }
+
